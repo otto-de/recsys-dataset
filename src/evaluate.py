@@ -1,14 +1,16 @@
 import argparse
 import json
+import logging
 from pathlib import Path
 
 from beartype import beartype
+from tqdm.auto import tqdm
 
 
 @beartype
 def prepare_predictions(predictions: list[str]):
     prepared_predictions = dict()
-    for prediction in predictions:
+    for prediction in tqdm(predictions, desc="Preparing predictions"):
         sid_type, preds = prediction.strip().split(",")
         sid, event_type = sid_type.split("_")
         preds = [int(aid) for aid in preds.split(" ")] if preds != "" else []
@@ -19,9 +21,10 @@ def prepare_predictions(predictions: list[str]):
 
 
 @beartype
-def prepare_labels(labels: list[dict]):
+def prepare_labels(labels: list[str]):
     final_labels = dict()
-    for label in labels:
+    for label in tqdm(labels, desc="Preparing labels"):
+        label = json.loads(label)
         final_labels[label["session"]] = {
             "clicks": label["labels"].get("clicks", None),
             "carts": set(label["labels"].get("carts", [])),
@@ -53,7 +56,7 @@ def evaluate_session(labels: dict, prediction: dict, k: int):
 @beartype
 def evaluate_sessions(labels: dict[str, dict], predictions: dict[int, dict], k: int):
     result = {}
-    for session_id, session_labels in labels.items():
+    for session_id, session_labels in tqdm(labels.items(), desc="Evaluating sessions"):
         if session_id in predictions:
             result[session_id] = evaluate_session(session_labels, predictions[session_id], k)
         else:
@@ -133,13 +136,22 @@ def get_scores(labels: dict[int, dict],
 @beartype
 def main(labels_path: Path, predictions_path: Path):
     with open(labels_path, "r") as f:
-        labels = prepare_labels([json.loads(label) for label in f.readlines()])
+        logging.info(f"Reading labels from {labels_path}")
+        labels = f.readlines()
+        labels = prepare_labels(labels)
+        logging.info(f"Read {len(labels)} labels")
     with open(predictions_path, "r") as f:
-        predictions = prepare_predictions(f.readlines()[1:])
-    print(get_scores(labels, predictions))
+        logging.info(f"Reading predictions from {predictions_path}")
+        predictions = f.readlines()[1:]
+        predictions = prepare_predictions(predictions)
+        logging.info(f"Read {len(predictions)} predictions")
+    logging.info("Calculating scores")
+    scores = get_scores(labels, predictions)
+    logging.info(f"Scores: {scores}")
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
     parser = argparse.ArgumentParser()
     parser.add_argument('--test-labels', default="resources/test_labels.jsonl", type=str)
     parser.add_argument('--predictions', default="resources/predictions.csv", type=str)
