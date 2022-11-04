@@ -97,6 +97,7 @@ The sessions are stored as `JSON` objects containing a unique `session` ID and a
   - `type` - the event type, i.e., whether a product was clicked, added to the user's cart, or ordered during the session
 
 ## Submission Format
+
 For each `session` id and `type` combination in the test set, you must predict the `aid` values in the `label` column, which is space delimited. You can predict up to 20 `aid` values per row. The file should contain a header and have the following format:
 
 ```CSV
@@ -105,16 +106,16 @@ session_type,labels
 42_carts,0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19
 42_orders,0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19
 ```
- 
+
 ## Evaluation
 
-Submissions are evaluated on [Recall](https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)#Recall)@20 for each action type, and the three recall values are weight-averaged: 
+Submissions are evaluated on [Recall](https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)#Recall)@20 for each action type, and the three recall values are weight-averaged:
 
 `{'clicks': 0.10, 'carts': 0.30, 'orders': 0.60}`
 
 For each `session` in the test data, your task it to predict the `aid` values for each `type` that occur after the last timestamp `ts` the test session. In other words, the test data contains sessions truncated by timestamp, and you are to predict what occurs after the point of truncation.
 
-For `clicks` there is only a single ground truth value for each session, which is the next `aid` clicked during the session (although you can still predict up to 20 `aid` values). The ground truth for `carts` and `orders` contains all `aid` values that were added to a cart and ordered respectively during the session. 
+For `clicks` there is only a single ground truth value for each session, which is the next `aid` clicked during the session (although you can still predict up to 20 `aid` values). The ground truth for `carts` and `orders` contains all `aid` values that were added to a cart and ordered respectively during the session.
 
 <img src=".readme/ground_truth.png" width="100%">
 
@@ -226,6 +227,20 @@ You can use the `evalute.py` script to calculate the Recall@20 for each action t
 ```Shell
 pipenv run python -m src.evaluate --test-labels test_labels.jsonl --predictions predictions.csv
 ```
+
+## FAQ
+
+### How is a user `session` defined?
+
+- A session is all activity by a single user either in the train or the test set.
+
+### Are you allowed to train on the truncated test sessions?
+
+- Yes, for the scope of the competition, you may use all the data we provided.
+
+### How is Recall@20 calculated if the ground truth contains more than 20 labels?
+
+- If you predict 20 correctly out of the ground truth labels, you will score 1.0.
 
 ## License
 
