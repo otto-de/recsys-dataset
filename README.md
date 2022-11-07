@@ -7,7 +7,7 @@
 [![Kaggle Competition](https://img.shields.io/badge/kaggle-competition-20BEFF?style=for-the-badge&logo=kaggle)](https://www.kaggle.com/competitions/otto-recommender-system)
 [![OTTO](https://img.shields.io/badge/otto-jobs-F00020?style=for-the-badge&logo=otto)](https://www.otto.de/jobs/technology/ueberblick/)
 
-**A real-world dataset of anonymized e-commerce sessions for multi-objective recommendation research.**
+**A real-world e-commerce dataset for multi-objective recommender systems research.**
 
 <img src=".readme/header.png" width="100%">
 
@@ -109,9 +109,19 @@ session_type,labels
 
 ## Evaluation
 
-Submissions are evaluated on [Recall](https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)#Recall)@20 for each action type, and the three recall values are weight-averaged:
+Submissions are evaluated on [Recall](https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)#Recall)@20 for each action `type`, and the three recall values are weight-averaged:
 
-`{'clicks': 0.10, 'carts': 0.30, 'orders': 0.60}`
+$$
+score = 0.10 \cdot R_{clicks} + 0.30 \cdot R_{carts} + 0.60 \cdot R_{orders}
+$$
+
+where $R$ is defined as
+
+$$
+R_{type} = \frac{ \sum\limits_{i=1}^N | \\{ \text{predicted aids} \\}\_{i, type} \cap \\{ \text{ground truth aids} \\}\_{i, type} | }{ \sum\limits_{i=1}^N \min{( 20, | \\{ \text{ground truth aids} \\}_{i, type} | )}}
+$$
+
+and $N$ is the total number of sessions in the test set, and $\text{predicted aids}$ are the predictions for each session-type (e.g., each row in the submission file) _truncated after the first 20 predictions_.
 
 For each `session` in the test data, your task it to predict the `aid` values for each `type` that occur after the last timestamp `ts` the test session. In other words, the test data contains sessions truncated by timestamp, and you are to predict what occurs after the point of truncation.
 
@@ -240,7 +250,7 @@ pipenv run python -m src.evaluate --test-labels test_labels.jsonl --predictions 
 
 ### How is Recall@20 calculated if the ground truth contains more than 20 labels?
 
-- If you predict 20 correctly out of the ground truth labels, you will score 1.0.
+- If you predict 20 items correctly out of the ground truth labels, you will still score 1.0.
 
 ## License
 
