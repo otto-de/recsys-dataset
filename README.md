@@ -107,6 +107,14 @@ session_type,labels
 42_orders,0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19
 ```
 
+## Prerequisites and Installation
+
+To run our scripts, you need to have [Python 3](https://www.python.org/downloads/) and [Pipenv](https://pipenv.pypa.io/en/latest/) installed. Then, you can install the dependencies with:
+
+```bash
+pipenv install
+```
+
 ## Evaluation
 
 Submissions are evaluated on [Recall](https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)#Recall)@20 for each action `type`, and the three recall values are weight-averaged:
