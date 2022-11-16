@@ -57,9 +57,9 @@ def trim_session(session: dict, max_ts: int) -> dict:
 
 
 @beartype
-def get_max_ts(sessions_file: Path) -> int:
+def get_max_ts(sessions_path: Path) -> int:
     max_ts = float('-inf')
-    with open(sessions_file) as f:
+    with open(sessions_path) as f:
         for line in tqdm(f, desc="Finding max timestamp"):
             session = json.loads(line)
             max_ts = max(max_ts, session['events'][-1]['ts'])
@@ -67,23 +67,41 @@ def get_max_ts(sessions_file: Path) -> int:
 
 
 @beartype
-def train_test_split(session_chunks: JsonReader, train_file: Path, test_file: Path, max_ts: int, test_days: int):
+def filter_unknown_items(session_path: Path, known_items: set[int]):
+    filtered_sessions = []
+    with open(session_path) as f:
+        for line in tqdm(f, desc="Filtering unknown items"):
+            session = json.loads(line)
+            session['events'] = [event for event in session['events'] if event['aid'] in known_items]
+            if len(session['events']) >= 2:
+                filtered_sessions.append(session)
+    with open(session_path, 'w') as f:
+        for session in filtered_sessions:
+            f.write(json.dumps(session) + '\n')
+
+
+@beartype
+def train_test_split(session_chunks: JsonReader, train_path: Path, test_path: Path, max_ts: int, test_days: int):
     split_millis = test_days * 24 * 60 * 60 * 1000
     split_ts = max_ts - split_millis
-    Path(train_file).parent.mkdir(parents=True, exist_ok=True)
-    train_file = open(train_file, "w")
-    Path(test_file).parent.mkdir(parents=True, exist_ok=True)
-    test_file = open(test_file, "w")
+    train_items = set()
+    Path(train_path).parent.mkdir(parents=True, exist_ok=True)
+    train_file = open(train_path, "w")
+    Path(test_path).parent.mkdir(parents=True, exist_ok=True)
+    test_file = open(test_path, "w")
     for chunk in tqdm(session_chunks, desc="Splitting sessions"):
         for _, session in chunk.iterrows():
             session = session.to_dict()
             if session['events'][0]['ts'] > split_ts:
-                test_file.write(json.dumps(session, cls=setEncoder) + "\n")
+                test_file.write(json.dumps(session) + "\n")
             else:
                 session = trim_session(session, split_ts)
-                train_file.write(json.dumps(session, cls=setEncoder) + "\n")
+                if len(session['events']) >= 2:
+                    train_items.update([event['aid'] for event in session['events']])
+                    train_file.write(json.dumps(session) + "\n")
     train_file.close()
     test_file.close()
+    filter_unknown_items(test_path, train_items)
 
 
 @beartype
