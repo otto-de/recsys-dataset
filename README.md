@@ -112,7 +112,7 @@ session_type,labels
 To run our scripts, you need to have [Python 3](https://www.python.org/downloads/) and [Pipenv](https://pipenv.pypa.io/en/latest/) installed. Then, you can install the dependencies with:
 
 ```bash
-pipenv install
+pipenv sync
 ```
 
 ## Evaluation
