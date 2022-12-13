@@ -91,7 +91,7 @@ def test_train_test_split():
     max_ts = 1661723994936
     test_days = 7
     train_items = set()
-    train_test_split(train_chunks, train_file, test_file, max_ts, test_days, 2)
+    train_test_split(train_chunks, train_file, test_file, max_ts, test_days)
     with open(train_file, 'r') as f:
         train_lines = f.readlines()
         assert len(train_lines) == 10
