@@ -35,17 +35,17 @@ def prepare_labels(labels: list[str]):
 
 @beartype
 def evaluate_session(labels: dict, prediction: dict, k: int):
-    if 'clicks' in labels and labels['clicks']:
+    if 'clicks' in labels and labels['clicks'] and 'clicks' in prediction and prediction['clicks']:
         clicks_hit = float(labels['clicks'] in prediction['clicks'][:k])
     else:
         clicks_hit = None
 
-    if 'carts' in labels and labels['carts']:
+    if 'carts' in labels and labels['carts'] and 'carts' in prediction and prediction['carts']:
         cart_hits = len(set(prediction['carts'][:k]).intersection(labels['carts']))
     else:
         cart_hits = None
 
-    if 'orders' in labels and labels['orders']:
+    if 'orders' in labels and labels['orders'] and 'orders' in prediction and prediction['orders']:
         order_hits = len(set(prediction['orders'][:k]).intersection(labels['orders']))
     else:
         order_hits = None

@@ -1,5 +1,5 @@
-from src.evaluate import (evaluate_session, evaluate_sessions, get_scores,
-                          num_events, recall_by_event_type, weighted_recalls)
+from src.evaluate import (evaluate_session, evaluate_sessions, get_scores, num_events, recall_by_event_type,
+                          weighted_recalls)
 
 
 def test_evaluate_session():
@@ -14,19 +14,16 @@ def test_evaluate_session():
         "orders": [1000000, 0, 1, 2, 3, 4, 5, 6, 7, 8]
     }
     expected_hits = {"clicks": 0, "carts": 1, "orders": 1}
-    assert expected_hits == evaluate_session(
-        label_last_event, prediction, k=20)
+    assert expected_hits == evaluate_session(label_last_event, prediction, k=20)
 
-    label_last_event = {'clicks': 1000003, 'carts': set(
-        [1000000, 1000004, 1000007, 100005]), "orders": set()}
+    label_last_event = {'clicks': 1000003, 'carts': set([1000000, 1000004, 1000007, 100005]), "orders": set()}
     prediction = {
         "clicks": [1000003, 1, 2, 3, 4, 5, 6, 7, 8, 9],
         "carts": [1000004, 0, 1, 2, 3, 4, 5, 6, 7, 8],
         "orders": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     }
     expected_hits = {"clicks": 1, "carts": 1, "orders": None}
-    assert expected_hits == evaluate_session(
-        label_last_event, prediction, k=20)
+    assert expected_hits == evaluate_session(label_last_event, prediction, k=20)
 
     label_last_event = {'clicks': 1000003, 'orders': set([1000000, 1000004])}
     prediction = {
@@ -35,30 +32,52 @@ def test_evaluate_session():
         "orders": [1000000, 0, 1, 2, 3, 4, 5, 6, 7, 8]
     }
     expected_hits = {"clicks": 0, "carts": None, "orders": 1}
-    assert expected_hits == evaluate_session(
-        label_last_event, prediction, k=20)
+    assert expected_hits == evaluate_session(label_last_event, prediction, k=20)
 
-    label_last_event = {'clicks': 1, 'orders': set(
-        [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])}
+    label_last_event = {'clicks': 1, 'orders': set([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])}
     prediction = {
         "clicks": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
         "carts": [1000004, 0, 1, 2, 3, 4, 5, 6, 7, 8],
         "orders": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     }
     expected_hits = {"clicks": 1, "carts": None, "orders": 10}
-    assert expected_hits == evaluate_session(
-        label_last_event, prediction, k=10)
+    assert expected_hits == evaluate_session(label_last_event, prediction, k=10)
 
-    label_last_event = {'clicks': None, 'carts': set(), 'orders': set(
-        [0, 1, 2, 3, 4, 5, 16, 17, 18, 19, 20])}
+    label_last_event = {'clicks': None, 'carts': set(), 'orders': set([0, 1, 2, 3, 4, 5, 16, 17, 18, 19, 20])}
     prediction = {
         "clicks": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
         "carts": [1000004, 0, 1, 2, 3, 4, 5, 6, 7, 8],
         "orders": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     }
     expected_hits = {"clicks": None, "carts": None, "orders": 6}
-    assert expected_hits == evaluate_session(
-        label_last_event, prediction, k=10)
+    assert expected_hits == evaluate_session(label_last_event, prediction, k=10)
+
+    label_last_event = {
+        'clicks': 1,
+        'carts': set([5, 6, 7, 8, 9]),
+        'orders': set([0, 1, 2, 3, 4, 5, 16, 17, 18, 19, 20])
+    }
+    prediction = {"clicks": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], "carts": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]}
+    expected_hits = {"clicks": 1, "carts": 5, "orders": None}
+    assert expected_hits == evaluate_session(label_last_event, prediction, k=10)
+
+    label_last_event = {
+        'clicks': 1,
+        'carts': set([5, 6, 7, 8, 9]),
+        'orders': set([0, 1, 2, 3, 4, 5, 16, 17, 18, 19, 20])
+    }
+    prediction = {"clicks": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], "carts": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], "orders": None}
+    expected_hits = {"clicks": 1, "carts": 5, "orders": None}
+    assert expected_hits == evaluate_session(label_last_event, prediction, k=10)
+
+    label_last_event = {
+        'clicks': 1,
+        'carts': set([5, 6, 7, 8, 9]),
+        'orders': set([0, 1, 2, 3, 4, 5, 16, 17, 18, 19, 20])
+    }
+    prediction = {}
+    expected_hits = {"clicks": None, "carts": None, "orders": None}
+    assert expected_hits == evaluate_session(label_last_event, prediction, k=10)
 
 
 def test_evaluate_sessions():
@@ -78,7 +97,8 @@ def test_evaluate_sessions():
             "clicks": [1, 2, 3],
             "carts": [1000007, 1000004, 3],
             "orders": [1, 2, 3]
-        }}
+        }
+    }
     labels = {
         1: {
             'clicks': None,
@@ -191,8 +211,7 @@ def test_recall_by_event_type():
         'orders': (1 + 0) / total_number_events["orders"]
     }
 
-    assert expected_recall == recall_by_event_type(
-        elementwise_evaluation, total_number_events)
+    assert expected_recall == recall_by_event_type(elementwise_evaluation, total_number_events)
 
 
 def test_weighted_recalls():
@@ -220,7 +239,8 @@ def test_get_scores():
             "clicks": [1, 2, 3],
             "carts": [1000007, 1000004, 3],
             "orders": [1, 2, 3]
-        }}
+        }
+    }
     labels = {
         1: {
             'clicks': None,
@@ -269,13 +289,15 @@ def test_get_scores():
 
     expected_recalls = {"clicks": 1 / 3, "carts": 3 / 9, "orders": 1 / 5}
     expected_scores = {
-        "clicks": 1 / 3,
-        "carts": 3 / 9,
-        "orders": 1 / 5,
-        "total": weights["clicks"] * expected_recalls["clicks"] +
-        weights["carts"] * expected_recalls["carts"] +
+        "clicks":
+        1 / 3,
+        "carts":
+        3 / 9,
+        "orders":
+        1 / 5,
+        "total":
+        weights["clicks"] * expected_recalls["clicks"] + weights["carts"] * expected_recalls["carts"] +
         weights["orders"] * expected_recalls["orders"]
     }
-    assert expected_evaluated_events == evaluate_sessions(
-        labels, predictions, k)
+    assert expected_evaluated_events == evaluate_sessions(labels, predictions, k)
     assert expected_scores == get_scores(labels, predictions, k, weights)
