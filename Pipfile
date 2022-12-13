@@ -10,6 +10,7 @@ kaggle = "*"
 beartype = "*"
 
 [dev-packages]
+exceptiongroup = "*"
 pytest = "*"
 yapf = "*"
 
