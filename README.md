@@ -2,10 +2,10 @@
 
 # OTTO Recommender Systems Dataset
 
-[![GitHub Stars](https://img.shields.io/github/stars/otto-de/recsys-dataset.svg?style=for-the-badge&color=yellow)](https://github.com/otto-de/recsys-dataset)
-[![License: MIT](https://img.shields.io/github/license/otto-de/recsys-dataset?style=for-the-badge)](LICENSE)
-[![Kaggle Competition](https://img.shields.io/badge/kaggle-competition-20BEFF?style=for-the-badge&logo=kaggle)](https://www.kaggle.com/competitions/otto-recommender-system)
-[![OTTO](https://img.shields.io/badge/otto-jobs-F00020?style=for-the-badge&logo=otto)](https://www.otto.de/jobs/technology/ueberblick/)
+[![GitHub stars](https://img.shields.io/github/stars/otto-de/recsys-dataset.svg?style=for-the-badge&color=yellow)](https://github.com/otto-de/recsys-dataset)
+[![Test suite](https://img.shields.io/github/workflow/status/otto-de/recsys-dataset/Test%20suite?style=for-the-badge)](https://github.com/otto-de/recsys-dataset/actions/workflows/test.yml)
+[![Kaggle competition](https://img.shields.io/badge/kaggle-competition-20BEFF?style=for-the-badge&logo=kaggle)](https://www.kaggle.com/competitions/otto-recommender-system)
+[![OTTO jobs](https://img.shields.io/badge/otto-jobs-F00020?style=for-the-badge&logo=otto)](https://www.otto.de/jobs/technology/ueberblick/)
 
 **A real-world e-commerce dataset for session-based recommender systems research.**
 
