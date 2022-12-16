@@ -3,7 +3,7 @@
 # OTTO Recommender Systems Dataset
 
 [![GitHub stars](https://img.shields.io/github/stars/otto-de/recsys-dataset.svg?style=for-the-badge&color=yellow)](https://github.com/otto-de/recsys-dataset)
-[![Test suite](https://img.shields.io/github/workflow/status/otto-de/recsys-dataset/Test%20suite?style=for-the-badge)](https://github.com/otto-de/recsys-dataset/actions/workflows/test.yml)
+[![Test suite](https://img.shields.io/github/actions/workflow/status/otto-de/recsys-dataset/test.yml?branch=main&style=for-the-badge)](https://github.com/otto-de/recsys-dataset/actions/workflows/test.yml)
 [![Kaggle competition](https://img.shields.io/badge/kaggle-competition-20BEFF?style=for-the-badge&logo=kaggle)](https://www.kaggle.com/competitions/otto-recommender-system)
 [![OTTO jobs](https://img.shields.io/badge/otto-jobs-F00020?style=for-the-badge&logo=otto)](https://www.otto.de/jobs/technology/ueberblick/)
 
