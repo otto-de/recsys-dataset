@@ -281,6 +281,10 @@ pipenv run python -m src.evaluate --test-labels test_labels.jsonl --predictions 
 
 - If you predict 20 items correctly out of the ground truth labels, you will still score 1.0.
 
+### Where can I find item and user metadata?
+
+- This dataset intentionally only contains anonymized IDs. Given its already large size, we deliberately did not include content features to make the dataset more manageable and focus on collaborative filtering techniques that solve the multi-objective problem.
+
 ## License
 
 The OTTO dataset is released under the [CC-BY 4.0 License](https://creativecommons.org/licenses/by/4.0/), while the code is licensed under the [MIT License](LICENSE).
