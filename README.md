@@ -38,12 +38,12 @@ The `OTTO` session dataset is a large-scale dataset intended for multi-objective
 | Dataset |  #sessions |    #items |     #events |     #clicks |     #carts |   #orders | Density [%] |
 | :------ | ---------: | --------: | ----------: | ----------: | ---------: | --------: | ----------: |
 | Train   | 12.899.779 | 1.855.603 | 216.716.096 | 194.720.954 | 16.896.191 | 5.098.951 |      0.0005 |
-| Test    |  1.671.803 |       TBA |         TBA |         TBA |        TBA |       TBA |         TBA |
+| Test    |  1.671.803 | 1.019.357 |  13.851.293 |  12.340.303 |  1.155.698 |   355.292 |      0.0005 |
 
 |                           |  mean |   std |  min |  50% |  75% |  90% |  95% |  max |
 | :------------------------ | ----: | ----: | ---: | ---: | ---: | ---: | ---: | ---: |
 | Train #events per session | 16.80 | 33.58 |    2 |    6 |   15 |   39 |   68 |  500 |
-| Test #events per session  |   TBA |   TBA |  TBA |  TBA |  TBA |  TBA |  TBA |  TBA |
+| Test  #events per session |  8.29 | 13.74 |    2 |    4 |    8 |   18 |   28 |  498 |
 
 <details>
     <summary><strong>#events per session histogram (90th percentile)</strong></summary>
@@ -53,14 +53,12 @@ The `OTTO` session dataset is a large-scale dataset intended for multi-objective
 |                        |   mean |    std |  min |  50% |  75% |  90% |  95% |    max |
 | :--------------------- | -----: | -----: | ---: | ---: | ---: | ---: | ---: | -----: |
 | Train #events per item | 116.79 | 728.85 |    3 |   20 |   56 |  183 |  398 | 129004 |
-| Test #events per item  |    TBA |    TBA |  TBA |  TBA |  TBA |  TBA |  TBA |    TBA |
+| Test #events per item  |  13.59 |  70.48 |    1 |    3 |    9 |   24 |   46 |  17068 |
 
 <details>
     <summary><strong>#events per item histogram (90th percentile)</strong></summary>
     <img src=".readme/events_per_item_p90.svg" width="800px">
 </details>
-
-**Note:** The full test set is not yet available. We will update the tables once the Kaggle competition is over and the test set is released.
 
 ## Get the Data
 
