@@ -65,7 +65,7 @@ The `OTTO` session dataset is a large-scale dataset intended for multi-objective
 The data is stored on the [Kaggle](https://www.kaggle.com/competitions/otto-recommender-system/data) platform and can be downloaded using their API:
 
 ```Shell
-kaggle competitions download -c otto-recommender-system
+kaggle datasets download -d otto/recsys-dataset
 ```
 
 ## Data Format
