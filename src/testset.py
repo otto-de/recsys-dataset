@@ -1,3 +1,5 @@
+# pipenv run python -m testset --train-set ../test/resources/train.jsonl --days 2 --output-path 'out/' --seed 42
+
 import argparse
 import json
 import random
@@ -9,7 +11,7 @@ from beartype import beartype
 from pandas.io.json._json import JsonReader
 from tqdm.auto import tqdm
 
-from src.labels import ground_truth
+from labels import ground_truth
 
 
 class setEncoder(json.JSONEncoder):
