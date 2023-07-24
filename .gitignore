@@ -26,3 +26,6 @@ test/resources/output
 
 # Dataset
 data
+
+# Other files
+test/resources/
