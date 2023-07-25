@@ -244,6 +244,19 @@ You can use the `evalute.py` script to calculate the Recall@20 for each action t
 ```Shell
 pipenv run python -m src.evaluate --test-labels test_labels.jsonl --predictions predictions.csv
 ```
+## Running models & calculating score
+
+1. [Download](https://www.kaggle.com/datasets/otto/recsys-dataset) and place these files in `test/resources`
+`otto-recsys-test.jsonl` (450MB)
+`otto-recsys-train.jsonl` (11.31GB)
+
+2. Generate Test labels (from src directory)
+`pipenv run python -m testset --train-set ../test/resources/otto-recsys-test.jsonl --days 2 --output-path 'out/' --seed 42`
+
+3. Run your model and generate a `predictions.csv` file (placed in the root directory)
+
+4. Evaluate your model (from src directory)
+`pipenv run python -m evaluate --test-labels out/test_labels.jsonl --predictions ../predictions.csv`
 
 ## FAQ
 
