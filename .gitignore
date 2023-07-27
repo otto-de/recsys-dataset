@@ -29,3 +29,6 @@ data
 
 # Other files
 test/resources/
+otto-recommender-system/
+src/out/
+.DS_Store

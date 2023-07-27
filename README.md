@@ -12,6 +12,7 @@
 <img src=".readme/header.png" width="100%">
 
 ---
+
 <p align="center">
   <a href="#get-the-data">Get the Data</a> •
   <a href="#data-format">Data Format</a> •
@@ -40,20 +41,20 @@ The `OTTO` session dataset is a large-scale dataset intended for multi-objective
 | Train   | 12.899.779 | 1.855.603 | 216.716.096 | 194.720.954 | 16.896.191 | 5.098.951 |      0.0005 |
 | Test    |  1.671.803 | 1.019.357 |  13.851.293 |  12.340.303 |  1.155.698 |   355.292 |      0.0005 |
 
-|                           |  mean |   std |  min |  50% |  75% |  90% |  95% |  max |
-| :------------------------ | ----: | ----: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Train #events per session | 16.80 | 33.58 |    2 |    6 |   15 |   39 |   68 |  500 |
-| Test  #events per session |  8.29 | 13.74 |    2 |    4 |    8 |   18 |   28 |  498 |
+|                           |  mean |   std | min | 50% | 75% | 90% | 95% | max |
+| :------------------------ | ----: | ----: | --: | --: | --: | --: | --: | --: |
+| Train #events per session | 16.80 | 33.58 |   2 |   6 |  15 |  39 |  68 | 500 |
+| Test #events per session  |  8.29 | 13.74 |   2 |   4 |   8 |  18 |  28 | 498 |
 
 <details>
     <summary><strong>#events per session histogram (90th percentile)</strong></summary>
     <img src=".readme/events_per_session_p90.svg" width="800px">
 </details>
 
-|                        |   mean |    std |  min |  50% |  75% |  90% |  95% |    max |
-| :--------------------- | -----: | -----: | ---: | ---: | ---: | ---: | ---: | -----: |
-| Train #events per item | 116.79 | 728.85 |    3 |   20 |   56 |  183 |  398 | 129004 |
-| Test #events per item  |  13.59 |  70.48 |    1 |    3 |    9 |   24 |   46 |  17068 |
+|                        |   mean |    std | min | 50% | 75% | 90% | 95% |    max |
+| :--------------------- | -----: | -----: | --: | --: | --: | --: | --: | -----: |
+| Train #events per item | 116.79 | 728.85 |   3 |  20 |  56 | 183 | 398 | 129004 |
+| Test #events per item  |  13.59 |  70.48 |   1 |   3 |   9 |  24 |  46 |  17068 |
 
 <details>
     <summary><strong>#events per item histogram (90th percentile)</strong></summary>
@@ -116,7 +117,7 @@ pipenv sync
 
 ## Evaluation
 
-Submissions are evaluated on [Recall](https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)#Recall)@20 for each action `type`, and the three recall values are weight-averaged:
+Submissions are evaluated on [Recall](<https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)#Recall>)@20 for each action `type`, and the three recall values are weight-averaged:
 
 $$
 score = 0.10 \cdot R_{clicks} + 0.30 \cdot R_{carts} + 0.60 \cdot R_{orders}
@@ -234,7 +235,7 @@ Since we want to evaluate a model's performance in the future, as would be the c
 We will publish the final test set after the Kaggle [competition](https://www.kaggle.com/competitions/otto-recommender-system) is finalized. However, until then, participants of the competition can create their truncated test sets from the training sessions and use this to evaluate their models offline. For this purpose, we include a Python script called `testset.py`:
 
 ```Shell
-pipenv run python -m src.testset --train-set train.jsonl --days 2 --output-path 'out/' --seed 42 
+pipenv run python -m src.testset --train-set train.jsonl --days 2 --output-path 'out/' --seed 42
 ```
 
 ### Metrics Calculation
@@ -244,19 +245,20 @@ You can use the `evalute.py` script to calculate the Recall@20 for each action t
 ```Shell
 pipenv run python -m src.evaluate --test-labels test_labels.jsonl --predictions predictions.csv
 ```
-## Running models & calculating score
+
+## Running models & calculating score (COMP9417)
 
 1. [Download](https://www.kaggle.com/datasets/otto/recsys-dataset) and place these files in `test/resources`
-`otto-recsys-test.jsonl` (450MB)
-`otto-recsys-train.jsonl` (11.31GB)
+   `otto-recsys-test.jsonl` (750MB)
+   `otto-recsys-train.jsonl` (11.31GB)
 
-2. Generate Test labels (from src directory)
-`pipenv run python -m testset --train-set ../test/resources/otto-recsys-test.jsonl --days 2 --output-path 'out/' --seed 42`
+2. Generate Test Labels/Ground Truths (from src directory)
+   `pipenv run python -m testset --train-set ../test/resources/otto-recsys-test.jsonl --days 2 --output-path 'out/' --seed 42`
 
 3. Run your model and generate a `predictions.csv` file (placed in the root directory)
 
 4. Evaluate your model (from src directory)
-`pipenv run python -m evaluate --test-labels out/test_labels.jsonl --predictions ../predictions.csv`
+   `pipenv run python -m evaluate --test-labels out/test_labels.jsonl --predictions ../predictions.csv`
 
 ## FAQ
 
