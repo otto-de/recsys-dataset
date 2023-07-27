@@ -4,8 +4,9 @@
 # Word2Vec model
 # Authored 27/07/23
 
-# TODO: Download the train and test parquet files from
+# TODO: Download the train and test parquet files from:
 # https://www.kaggle.com/datasets/columbia2131/otto-chunk-data-inparquet-format?select=test_parquet
+# Save the parquet folders (test_parquet, train_parquet) in the root directory.
 
 # TODO: Install the required modules below to run this code
 from annoy import AnnoyIndex
