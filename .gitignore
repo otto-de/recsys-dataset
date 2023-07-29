@@ -28,7 +28,7 @@ test/resources/output
 data
 
 # Other files
-test/resources/
-otto-recommender-system/
-src/out/
 .DS_Store
+test/resources/
+*submission.csv
+*predictions.csv
