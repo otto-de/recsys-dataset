@@ -26,6 +26,8 @@
 
 The `OTTO` session dataset is a large-scale dataset intended for multi-objective recommendation research. We collected the data from anonymized behavior logs of the [OTTO](https://otto.de) webshop and the app. The mission of this dataset is to serve as a benchmark for session-based recommendations and foster research in the multi-objective and session-based recommender systems area. We also launched a [Kaggle competition](https://www.kaggle.com/competitions/otto-recommender-system) with the goal to predict clicks, cart additions, and orders based on previous events in a user session.
 
+_Please scroll down to the bottom of this README file for instructions specific to the COMP9417 Group Project_
+
 ## Key Features
 
 - 12M real-world anonymized user sessions
@@ -246,20 +248,6 @@ You can use the `evalute.py` script to calculate the Recall@20 for each action t
 pipenv run python -m src.evaluate --test-labels test_labels.jsonl --predictions predictions.csv
 ```
 
-## Running models & calculating score (COMP9417)
-
-1. [Download](https://www.kaggle.com/datasets/otto/recsys-dataset) and place these files in `test/resources`
-   `otto-recsys-test.jsonl` (750MB)
-   `otto-recsys-train.jsonl` (11.31GB)
-
-2. Generate Test Labels/Ground Truths (from src directory)
-   `pipenv run python -m testset --train-set ../test/resources/otto-recsys-test.jsonl --days 2 --output-path 'out/' --seed 42`
-
-3. Run your model and generate a `predictions.csv` file (placed in the root directory)
-
-4. Evaluate your model (from src directory)
-   `pipenv run python -m evaluate --test-labels out/test_labels.jsonl --predictions ../predictions.csv`
-
 ## FAQ
 
 ### How is a user `session` defined?
@@ -312,4 +300,56 @@ BibTeX entry:
   title        = {OTTO Recommender Systems Dataset: A real-world e-commerce dataset for session-based recommender systems research},
   date         = {2022-11-01},
 }
+```
+
+---
+
+# COMP9417 Group Project
+
+This Kaggle competition was completed by a group of 3 students for the COMP9417 Machine Learning and Data Mining course at UNSW. The group members are:
+
+- William Feng (z5309999)
+- Asha Raghav (z5363204)
+- Prayag Rawat (z5312819)
+
+## Summary/Notes
+
+- The **`test/resources/`** directory contains all the data files used for the project.
+  - In the GitHub repository, you will only find a `train.jsonl` file, which simply contains the first 10 and last 10 lines of the full training data.
+  - To properly run all the models, you will need to insert the [full OTTO dataset](<(https://www.kaggle.com/datasets/otto/recsys-dataset)>) here, as well as any parquet files that may be used in the data processing.
+  - These files are not included in the GitHub repository due to their large size.
+- The **`src/`** directory contains contains all the code for generating the 'ground truth' labels used for testing.
+  - The specific commands to run the starter Python files are explained in the section below for clarity.
+  - Please note that the output of running the test labels (which our generated models will be comparing against) will be generated in the `src/out/` directory.
+  - Note that again, these are not included in the GitHub repository due to their large size.
+- The **`process/`** directory contains all the Python files that are used to generate our models.
+  - You can run each of these simply by `python <filename>`
+
+## Running Models & Calculating Score
+
+1. [Download](https://www.kaggle.com/datasets/otto/recsys-dataset) and place these files in the `test/resources/` directory
+
+   - `otto-recsys-test.jsonl` (750MB)
+   - `otto-recsys-train.jsonl` (11.31GB)
+
+2. Generate Test Labels/Ground Truths (from the `src/` directory)
+
+```shell
+pipenv run python -m testset --train-set ../test/resources/otto-recsys-test.jsonl --days 2 --output-path 'out/' --seed 42
+```
+
+3. Run your model and generate a `predictions.csv` file (placed in the `process/` directory)
+
+4. Evaluate your model (from the `src/` directory)
+
+```shell
+pipenv run python -m evaluate --test-labels out/test_labels.jsonl --predictions ../process/predictions.csv
+```
+
+5. You should see the score of the predictions from your model based on this data. However, to obtain the final private score (based on a full hidden subset of test data), you will need to submit your predictions to the [Kaggle competition](https://www.kaggle.com/competitions/otto-recommender-system/submissions).
+
+   - If you prefer not to manually submit the submission file over the internet, you can also follow [these instructions](https://github.com/Kaggle/kaggle-api) to set up the Kaggle API and submit the `submission.csv` file via the command line.
+
+```shell
+kaggle competitions submit -c otto-recommender-system -f submission.csv -m "Message"
 ```
