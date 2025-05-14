@@ -54,7 +54,7 @@ def evaluate_session(labels: dict, prediction: dict, k: int):
 
 
 @beartype
-def evaluate_sessions(labels: dict[str, dict], predictions: dict[int, dict], k: int):
+def evaluate_sessions(labels: dict[int, dict], predictions: dict[int, dict], k: int):
     result = {}
     for session_id, session_labels in tqdm(labels.items(), desc="Evaluating sessions"):
         if session_id in predictions:
